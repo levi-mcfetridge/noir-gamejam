@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
         anim.SetBool("IsGrounded", isGrounded);
         anim.SetBool("IsSprinting", gameInput.Sprint());
     }
+<<<<<<< HEAD
 
     private void HandleInteractions()
     {
@@ -111,4 +112,19 @@ public class Player : MonoBehaviour
             if (col.TryGetComponent(out NPC npc))
                 npc.Interact();
     }
+=======
+    private void HandleInteractions(){
+          if (gameInput.Interact()){
+               float interactRange = 2f;
+               Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+               foreach (Collider collider in colliderArray){
+                    Debug.Log(collider);
+                    if (collider.TryGetComponent(out NPC npc))
+                    {
+                         npc.Interact();
+                    }
+               }
+          }
+     }
+>>>>>>> 58f84cca15f3651f2c4dd7e4ce9bb3a8692a9cdf
 }
