@@ -101,3 +101,6 @@ InitTestScene*.unity*
 # USB Shared at Game Jam
 /Assets/USB/
 **/USB/
+
+# But keep this specific scene
+!Assets/USB/City/Demo City By Versatile Studio/Scenes/demo_city_night
