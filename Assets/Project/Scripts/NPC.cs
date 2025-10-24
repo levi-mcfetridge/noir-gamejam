@@ -1,12 +1,17 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class NPC : MonoBehaviour
 {
-     public string npcName = "Unnamed NPC";
+     [SerializeField] public string npcName = "";
+     [SerializeField] public List<string> Dialogue = new List<string>();
 
-     public void Interact()
+
+public void Interact()
      {
-          Debug.Log($"{npcName} says: Hello traveler!");
-          // You can trigger dialogue, quests, shop menus, etc. here later.
+          foreach (string line in Dialogue)
+          {
+               Debug.Log(line);
+          }
      }
 }
