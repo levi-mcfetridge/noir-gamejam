@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
      private void Update()
      {
           HandleMovement();
+          HandleInteractions();
      }
 
      private void HandleMovement()
@@ -51,7 +52,15 @@ public class Player : MonoBehaviour
           moveDir = (camForward * moveDir.z + camRight * moveDir.x).normalized;
 
           // --- Apply movement ---
-          controller.Move(moveDir * moveSpeed * Time.deltaTime);
+          if (gameInput.Sprint())
+               controller.Move(moveDir * moveSpeed * Time.deltaTime * 1.5f); //Sprint
+          else{
+               controller.Move(moveDir * moveSpeed * Time.deltaTime); //Walk
+          }
+
+          // --- Jump ---
+          if (isGrounded && gameInput.IsJumpPressed())
+               velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
           // --- Apply gravity ---
           velocity.y += gravity * Time.deltaTime;
@@ -61,6 +70,12 @@ public class Player : MonoBehaviour
           if (moveDir.magnitude > 0)
           {
                transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 10f);
+          }
+          
+     }
+     private void HandleInteractions(){
+          if (gameInput.Interact()){
+
           }
      }
 }
