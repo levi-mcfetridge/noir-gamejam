@@ -1,3 +1,5 @@
+using System.IO.Pipes;
+using UnityEditor.Build;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -75,7 +77,13 @@ public class Player : MonoBehaviour
      }
      private void HandleInteractions(){
           if (gameInput.Interact()){
-
+               float interactRange = 2f;
+               Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+               foreach (Collider collider in colliderArray){
+                    //if(collider.TryGetComponent(out NPC npc)){
+                    //     Debug.Log("cheese");
+                    //}
+               }
           }
      }
 }
