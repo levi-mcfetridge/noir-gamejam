@@ -1,14 +1,23 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
      [SerializeField] private GameInput gameInput;
      [SerializeField] private float moveSpeed = 7f;
-
+     [SerializeField] private float gravity = -9.81f;
+     [SerializeField] private float jumpHeight = 2f;
 
      public Transform cameraTransform;
 
-     private bool isWalking;
+     private CharacterController controller;
+     private Vector3 velocity;
+     private bool isGrounded;
+
+     private void Awake()
+     {
+          controller = GetComponent<CharacterController>();
+     }
 
      private void Start()
      {
@@ -18,15 +27,21 @@ public class Player : MonoBehaviour
      private void Update()
      {
           HandleMovement();
+          HandleInteractions();
      }
-
 
      private void HandleMovement()
      {
+          // --- Ground Check ---
+          isGrounded = controller.isGrounded;
+          if (isGrounded && velocity.y < 0)
+               velocity.y = -2f; // small push to stay grounded
+
+          // --- Input ---
           Vector2 inputVector = gameInput.GetMovementVectorNormalized();
           Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
-          // Make movement relative to camera direction
+          // --- Camera-relative movement ---
           Vector3 camForward = cameraTransform.forward;
           Vector3 camRight = cameraTransform.right;
           camForward.y = 0f;
@@ -36,41 +51,31 @@ public class Player : MonoBehaviour
 
           moveDir = (camForward * moveDir.z + camRight * moveDir.x).normalized;
 
-          float moveDistance = moveSpeed * Time.deltaTime;
-          float playerRadius = .7f;
-          float playerHeight = 2f;
-          bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
-
-          if (!canMove)
-          {
-               Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-               canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
-
-               if (canMove)
-               {
-                    moveDir = moveDirX;
-               }
-               else
-               {
-                    Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                    canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
-
-                    if (canMove)
-                    {
-                         moveDir = moveDirZ;
-                    }
-               }
+          // --- Apply movement ---
+          if (gameInput.Sprint())
+               controller.Move(moveDir * moveSpeed * Time.deltaTime * 1.5f); //Sprint
+          else{
+               controller.Move(moveDir * moveSpeed * Time.deltaTime); //Walk
           }
 
-          if (canMove)
-          {
-               transform.position += moveDir * moveDistance;
-          }
+          // --- Jump ---
+          if (isGrounded && gameInput.IsJumpPressed())
+               velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
 
-          isWalking = moveDir != Vector3.zero;
-          float rotateSpeed = 10f;
-          if (moveDir != Vector3.zero)
-               transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
+          // --- Apply gravity ---
+          velocity.y += gravity * Time.deltaTime;
+          controller.Move(velocity * Time.deltaTime);
+
+          // --- Rotate toward move direction ---
+          if (moveDir.magnitude > 0)
+          {
+               transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * 10f);
+          }
+          
      }
+     private void HandleInteractions(){
+          if (gameInput.Interact()){
 
+          }
+     }
 }
