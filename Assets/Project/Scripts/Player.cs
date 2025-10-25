@@ -92,12 +92,23 @@ public class Player : MonoBehaviour
     {
         if (!anim) return;
 
-        // animate from input magnitude (snappy & camera-relative)
-        float inputMag = new Vector2(moveDirNorm.x, moveDirNorm.z).magnitude;    // 0..1
-        float speed01 = (gameInput.Sprint() ? 1f : 0.66f) * inputMag;
-        speed01 = Mathf.Clamp01(speed01);
+        // Convert world move dir to local (player-relative) so X = strafe, Z = forward/back
+        Vector3 localMove = transform.InverseTransformDirection(moveDirNorm);
 
-        anim.SetFloat("Speed", speed01);                 // 1D blend tree param (Idle 0 / Walk .5 / Run 1)
+        // If you use analog sticks, preserve partial input magnitude
+        float inputMag = Mathf.Clamp01(new Vector2(localMove.x, localMove.z).magnitude);
+
+        // Pick the tier that matches your blend tree coordinates
+        float tier = gameInput.Sprint() ? 2f : 0.5f;      // run=2, walk=0.5
+
+        // Final parameters match your tree's Pos X / Pos Y ranges ([-2..2])
+        float vx = localMove.x * tier * inputMag;         // left/right
+        float vz = localMove.z * tier * inputMag;         // fwd/back
+
+        // Smooth damping to keep blends stable
+        anim.SetFloat("Velocity X", vx, 0.1f, Time.deltaTime);
+        anim.SetFloat("Velocity Z", vz, 0.1f, Time.deltaTime);
+
         anim.SetBool("IsGrounded", isGrounded);
         anim.SetBool("IsSprinting", gameInput.Sprint());
     }
