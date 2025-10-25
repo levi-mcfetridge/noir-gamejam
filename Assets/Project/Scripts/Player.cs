@@ -124,7 +124,11 @@ public class Player : MonoBehaviour
                     }
                     if (collider.TryGetComponent(out Door door))
                     {
-                    door.Interact();
+                        door.Interact();
+                    }
+                    if (collider.TryGetComponent(out Lock locks))
+                    {
+                        locks.Interact();
                     }
             }
           }
