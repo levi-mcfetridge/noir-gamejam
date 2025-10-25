@@ -8,6 +8,8 @@ public class NPC : MonoBehaviour
     [SerializeField] private Animator anim;                // John’s Animator (auto-found if left empty)
     [SerializeField] private string talkedBool = "talkedBool";
     public AudioSource talkSound;  // Add this at the top of your class
+    public AudioSource robberSound;
+    public AudioSource policeSound;
 
 
 
@@ -39,6 +41,10 @@ public class NPC : MonoBehaviour
         if (npcName == "Robber")
         {
             if (CityScene.instance) CityScene.instance.talkedToRobber = true;
+            if (robberSound != null)
+                robberSound.Play();
+            if (policeSound != null)
+                robberSound.Play();
         }
         if (npcName == "HogFather")
         {
