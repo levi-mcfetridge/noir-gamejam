@@ -1,3 +1,5 @@
+using System;
+using Unity.Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -17,6 +19,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform modelTransform;        // drag YBot here (optional)
     [SerializeField] private float modelYawOffset = 0f;       // set to 90/-90/180 if your mesh faces sideways/back
 
+    [SerializeField] private CinemachineBrain brain;
+
+    public static Player instance;
+    public bool canMove = true;
+
     private CharacterController controller;
     private Animator anim;
 
@@ -28,18 +35,31 @@ public class Player : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        canMove = true;
     }
 
     private void Update()
     {
-        HandleMovement();
-        HandleAnimations();
-        HandleInteractions();
+        if (canMove)
+        {
+            HandleMovement();
+            HandleAnimations();
+            HandleInteractions();
+        }
     }
 
     private void HandleMovement()
@@ -130,7 +150,24 @@ public class Player : MonoBehaviour
                     {
                         locks.Interact();
                     }
+                    if (collider.TryGetComponent(out ChessScript chess))
+                    {
+                        chess.Interact();
+                    }
             }
           }
+
+
+
      }
+    public void SetPlayerActive(bool active)
+    {
+        // Deactivates or reactivates the entire Player GameObject
+        gameObject.SetActive(active);
+    }
+
+
+
+
+
 }

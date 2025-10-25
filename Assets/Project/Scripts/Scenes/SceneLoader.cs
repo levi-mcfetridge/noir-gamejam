@@ -3,46 +3,46 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    //SceneLoader.instance.LoadNextScene(); Load Next Scene
+    public static SceneLoader instance;
+    public bool loopToStart = false;
 
-    public bool loopToStart = false;      // optional: loop back to 0
-
-    public static SceneLoader instance;  // singleton guard
+    bool isLoading = false;   // <- guard
 
     void Awake()
     {
-        // make sure only one SceneLoader exists
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
+        if (instance != null && instance != this) { Destroy(gameObject); return; }
         instance = this;
-        DontDestroyOnLoad(gameObject);    // stay alive through all scene loads
-    }
-
-    void Update()
-    {
-
+        DontDestroyOnLoad(gameObject);
     }
 
     public void LoadNextScene()
     {
+        if (isLoading) return;          // ignore duplicates
+        isLoading = true;
+
         int current = SceneManager.GetActiveScene().buildIndex;
         int next = current + 1;
 
-            if (next < SceneManager.sceneCountInBuildSettings)
-            {
-                SceneManager.LoadScene(next);
-            }
-            else if (loopToStart)
-            {
-                SceneManager.LoadScene(0);
-            }
-            else
-            {
-                Debug.Log("No more scenes left — you're at the last one!");
-            }
+        if (next < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;   // reset guard after load
+            SceneManager.LoadScene(next);
+        }
+        else if (loopToStart)
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            Debug.Log("No more scenes left — you're at the last one!");
+            isLoading = false;
+        }
+    }
+
+    void OnSceneLoaded(Scene s, LoadSceneMode m)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        isLoading = false;
     }
 }
