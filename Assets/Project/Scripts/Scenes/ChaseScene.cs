@@ -4,9 +4,11 @@ public class ChaseScene : MonoBehaviour
 {
     public GameObject truck;
     private GameObject[] cars;
+    public GameObject carPrefab;
     void Start()
     {
         cars = GameObject.FindGameObjectsWithTag("Car");
+        carPrefab.SetActive(true);
     }
 
     void Update()
@@ -15,7 +17,7 @@ public class ChaseScene : MonoBehaviour
         foreach (GameObject car in cars)
         {
             if (car != null)
-                car.transform.position += new Vector3(8f, 0f, -6/30f) * Time.deltaTime;
+                car.transform.position += new Vector3(8f, 0f, -6/800f) * Time.deltaTime;
         }
     }
 }
