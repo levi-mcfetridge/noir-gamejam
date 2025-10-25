@@ -7,6 +7,7 @@ public class PrisonScene : MonoBehaviour
     public static PrisonScene instance;
 
     public GameObject lockObject;
+    public bool talkedToHog = false;
     public bool isCellLocked = true;
     public bool isFinalDoorLocked = true;
     public bool caught = false;
@@ -26,17 +27,16 @@ public class PrisonScene : MonoBehaviour
 
     private void Update()
     {
+
         if (caught && !isHandlingCatch)
         {
             isHandlingCatch = true;
             Player.instance.transform.position = Vector3.zero;
             StartCoroutine(HandleCaught());
         }
-
-        if (!isCellLocked && lockObject)
+        if (!isCellLocked)
         {
             Player.instance.canMove = false;
-            Player.instance.SetPlayerActive(false);
             lockObject.SetActive(false);
         }
 

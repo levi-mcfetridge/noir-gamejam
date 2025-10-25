@@ -5,6 +5,7 @@ public class Lock : MonoBehaviour
 
     public void Interact()
     {
-        PrisonScene.instance.isCellLocked = false;
+        if(PrisonScene.instance.talkedToHog)
+            PrisonScene.instance.isCellLocked = false;
     }
 }

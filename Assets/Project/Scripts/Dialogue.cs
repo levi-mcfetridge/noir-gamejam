@@ -7,11 +7,13 @@ public class DialogueUI : MonoBehaviour
     public static DialogueUI Instance { get; private set; }
 
     [Header("UI Refs")]
-    [SerializeField] private CanvasGroup panel;        // parent panel to show/hide
-    [SerializeField] private TextMeshProUGUI text;     // the text box
+    [SerializeField] private CanvasGroup panel;
+    [SerializeField] private TextMeshProUGUI text;
 
     [Header("Typing")]
-    [SerializeField] private float textSpeed = 0.03f;
+    [SerializeField] private float textSpeed = 0.03f;       // normal speed
+    [SerializeField] private float fastMultiplier = 0.2f;   // while holding click
+    [SerializeField] private bool pauseGame = true;
 
     private string[] lines;
     private int index;
@@ -28,23 +30,20 @@ public class DialogueUI : MonoBehaviour
     {
         if (!isOpen) return;
 
-        Time.timeScale = 0f;
+        // Click logic: skip or go next
         if (Input.GetMouseButtonDown(0))
         {
-            // if fully shown, go next; else complete instantly
-            if (text.text == lines[index])
-            {
+            if (typingRoutine == null)  // line is fully shown
                 NextLine();
-            }
-            else
+            else                        // complete instantly
             {
-                if (typingRoutine != null) StopCoroutine(typingRoutine);
+                StopCoroutine(typingRoutine);
                 text.text = lines[index];
+                typingRoutine = null;
             }
         }
     }
 
-    // Call this to start dialogue
     public void Show(string[] newLines)
     {
         if (newLines == null || newLines.Length == 0) return;
@@ -52,6 +51,8 @@ public class DialogueUI : MonoBehaviour
         lines = newLines;
         index = 0;
         isOpen = true;
+
+        if (pauseGame) Time.timeScale = 0f;
 
         panel.alpha = 1f;
         panel.blocksRaycasts = true;
@@ -78,11 +79,19 @@ public class DialogueUI : MonoBehaviour
 
     private IEnumerator TypeLine()
     {
-        foreach (char c in lines[index])
+        string line = lines[index];
+
+        for (int i = 0; i < line.Length; i++)
         {
-            text.text += c;
-            yield return new WaitForSeconds(textSpeed);
+            text.text = line.Substring(0, i + 1);
+
+            // while holding mouse, type faster
+            float step = Input.GetMouseButton(0) ? textSpeed * fastMultiplier : textSpeed;
+
+            // IMPORTANT: use unscaled time so it works while the game is paused
+            yield return new WaitForSecondsRealtime(step);
         }
+
         typingRoutine = null;
     }
 
@@ -93,7 +102,8 @@ public class DialogueUI : MonoBehaviour
         panel.blocksRaycasts = false;
         panel.interactable = false;
         gameObject.SetActive(false);
-        Time.timeScale = 1f;
+
+        if (pauseGame) Time.timeScale = 1f;
     }
 
     private void HideImmediate()

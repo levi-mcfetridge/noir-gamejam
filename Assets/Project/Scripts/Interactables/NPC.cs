@@ -34,6 +34,11 @@ public class NPC : MonoBehaviour
         {
             if (CityScene.instance) CityScene.instance.talkedToRobber = true;
         }
+        if (npcName == "HogFather")
+        {
+            if (PrisonScene.instance) PrisonScene.instance.talkedToHog = true;
+            Debug.Log("Talked to HogFather");
+        }
 
         // show dialogue
         if (DialogueUI.Instance)
