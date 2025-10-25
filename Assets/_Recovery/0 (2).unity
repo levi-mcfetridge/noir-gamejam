@@ -5774,6 +5774,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPC
   npcName: John
+  anim: {fileID: 0}
+  talkedBool: talkedBool
   lines:
   - 'Bartender: Hey dude, I''m glad you came by. I heard there was a robbery and
     rushed down. Turns out theres a bunch of cash in here now.'

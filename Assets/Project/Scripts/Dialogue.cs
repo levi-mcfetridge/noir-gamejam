@@ -28,6 +28,7 @@ public class DialogueUI : MonoBehaviour
     {
         if (!isOpen) return;
 
+        Time.timeScale = 0f;
         if (Input.GetMouseButtonDown(0))
         {
             // if fully shown, go next; else complete instantly
@@ -92,6 +93,7 @@ public class DialogueUI : MonoBehaviour
         panel.blocksRaycasts = false;
         panel.interactable = false;
         gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     private void HideImmediate()

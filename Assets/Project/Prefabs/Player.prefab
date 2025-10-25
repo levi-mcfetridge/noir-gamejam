@@ -82,8 +82,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   gameInput: {fileID: 0}
   cameraTransform: {fileID: 5472462252724319387}
-  moveSpeed: 7
-  gravity: -9.81
+  moveSpeed: 3.5
+  gravity: -15
   jumpHeight: 2
   turnSpeed: 10
   modelTransform: {fileID: 0}
@@ -176,8 +176,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8710881118688974478}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10756744, y: 0.69887716, z: -0.107567444, w: 0.6988771}
-  m_LocalPosition: {x: -9.537171, y: 3.0070572, z: 0.0000009536743}
+  m_LocalRotation: {x: 0.1521234, y: 0.00000004214685, z: -0.000000005268359, w: 0.98836154}
+  m_LocalPosition: {x: 0, y: 3.0070581, z: -9.53717}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -444,6 +444,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
       propertyPath: m_Name
       value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
