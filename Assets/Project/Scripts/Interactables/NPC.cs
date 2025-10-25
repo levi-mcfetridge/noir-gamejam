@@ -15,6 +15,12 @@ public class NPC : MonoBehaviour
                 BarScene.instance.talkedToBartender = true;
                 Debug.Log("talked to john");
         }
+        if (npcName == "Robber")
+        {
+            CityScene.instance.talkedToRobber = true;
+            Debug.Log("talked to robber");
+        }
+
     }
 
 }

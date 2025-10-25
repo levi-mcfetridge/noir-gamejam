@@ -7,7 +7,11 @@ public class GameInput : MonoBehaviour
      public event EventHandler OnInteractAction;
      private PlayerInputActions playerInputActions;
 
-     private void Awake()
+    //FindFirstObjectByType<GameInput>().enabled = false;  // disable
+    //// later...
+    //FindObjectOfType<GameInput>().enabled = true;   // enable again
+
+    private void Awake()
      {
           playerInputActions = new PlayerInputActions();
           playerInputActions.Player.Enable();
