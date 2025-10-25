@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
         moveDirNorm = (camF * inputDir.z + camR * inputDir.x).normalized;
 
         // --- Move (walk/sprint) ---
-        float speedMult = gameInput.Sprint() ? 1.5f : 1f;
+        float speedMult = gameInput.Sprint() ? 1.5f : 0.6f;
         controller.Move(moveDirNorm * (moveSpeed * speedMult) * Time.deltaTime);
 
         // --- Jump ---
