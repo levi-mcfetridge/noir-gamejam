@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Project/Scenes/Bar.unity
     guid: 5400a0d152d4ecd41a76b1c017569978
-  - enabled: 1
+  - enabled: 0
     path: Assets/USB/Versatile Studio Assets/City/Scenes/City.unity
     guid: 63e3cf94f7432394eb7c21be1873fd53
   - enabled: 1
@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/USB/City/Scenes/demo_city_night.unity
     guid: 3dd6985d248a2724291b46a30456112a
-  - enabled: 1
+  - enabled: 0
     path: Assets/USB/Versatile Studio Assets/City/Scenes/Car Chase.unity
     guid: 9f2095da0995d7745858dae19811ee03
   m_configObjects:

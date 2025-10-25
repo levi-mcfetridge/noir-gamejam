@@ -36,7 +36,7 @@ public class PrisonScene : MonoBehaviour
         }
         if (!isCellLocked)
         {
-            Player.instance.canMove = false;
+            Player.instance.canMove = true;
             lockObject.SetActive(false);
         }
 
