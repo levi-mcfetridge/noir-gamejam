@@ -10,9 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform cameraTransform;      // set to your FreeLook rig's follow target (usually Player)
 
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private float gravity = -9.81f;
-    [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private float moveSpeed = 3.5f;
+    [SerializeField] private float gravity = -15f;
+    [SerializeField] private float jumpHeight = 1.3f;
     [SerializeField] private float turnSpeed = 10f;          // how quickly the player aligns to camera heading
 
     [Header("Visual (optional)")]
@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
         moveDirNorm = (camF * inputDir.z + camR * inputDir.x).normalized;
 
         // --- Move (walk/sprint) ---
-        float speedMult = gameInput.Sprint() ? 1.5f : 0.6f;
+        float speedMult = gameInput.Sprint() ? 1.75f : 1f;
         controller.Move(moveDirNorm * (moveSpeed * speedMult) * Time.deltaTime);
 
         // --- Jump ---
