@@ -117,12 +117,16 @@ public class Player : MonoBehaviour
                float interactRange = 2f;
                Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
                foreach (Collider collider in colliderArray){
-                    Debug.Log(collider);
+                    //Debug.Log(collider); print all colliders
                     if (collider.TryGetComponent(out NPC npc))
                     {
                          npc.Interact();
                     }
-               }
+                    if (collider.TryGetComponent(out Door door))
+                    {
+                    door.Interact();
+                    }
+            }
           }
      }
 }
