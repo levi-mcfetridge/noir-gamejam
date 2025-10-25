@@ -5,7 +5,7 @@ public class GuardScript : MonoBehaviour
     private float speed = 3f;
     private int direction = 0;
     private Vector3 startPos;
-    private float moveDistance = 13f;
+    private float moveDistance = 15.5f;
 
     [Header("Detection")]
     [SerializeField] private float detectionRadius = 5f;
@@ -34,6 +34,8 @@ public class GuardScript : MonoBehaviour
         {
             direction = (direction + 1) % 4;
             startPos = transform.position;
+
+            transform.Rotate(0f, 90f, 0f);
         }
     }
 
