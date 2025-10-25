@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float gravity = -15f;
+
+
     [SerializeField] private float jumpHeight = 1.3f;
     [SerializeField] private float turnSpeed = 10f;          // how quickly the player aligns to camera heading
 
@@ -83,7 +85,6 @@ public class Player : MonoBehaviour
         // --- Move (walk/sprint) ---
         float speedMult = gameInput.Sprint() ? 1.75f : 1f;
         // Base multiplier depending on sprint input
-        float speedMult = gameInput.Sprint() ? 1.5f : 0.6f;
 
         // If we’re in the ChaseScene, boost sprint multiplier
         if (SceneManager.GetActiveScene().name == "ChaseScene" && gameInput.Sprint())
