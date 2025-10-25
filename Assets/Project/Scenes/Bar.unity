@@ -711,6 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
   loadKey: 108
+  loopToStart: 0
 --- !u!4 &1254241197
 Transform:
   m_ObjectHideFlags: 0
