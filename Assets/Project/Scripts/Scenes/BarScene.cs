@@ -18,6 +18,14 @@ public class BarScene : MonoBehaviour
         instance = this;
     }
 
+
+    public void Start()
+    {
+        PauseMenu.instance.pauseMenu.SetActive(false);
+        PauseMenu.instance.isPaused = false;
+        Time.timeScale = 1f;
+
+    }
     void Update()
     {
         if (talkedToBartender && isDoorUnlocked)

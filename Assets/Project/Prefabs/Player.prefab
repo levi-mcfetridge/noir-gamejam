@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 9167501631472603755}
   - component: {fileID: 4939953671848998898}
   - component: {fileID: 6811353766189642829}
+  - component: {fileID: 2466013117166347729}
   m_Layer: 0
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -176,8 +177,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8710881118688974478}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10756744, y: 0.69887716, z: -0.107567444, w: 0.6988771}
-  m_LocalPosition: {x: -9.537171, y: 3.0070572, z: 0.0000009536743}
+  m_LocalRotation: {x: 0.37613234, y: 0.000000014007462, z: -0.000000005686221, w: 0.92656595}
+  m_LocalPosition: {x: 0, y: 3.1970706, z: -3.2889252}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -342,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineOrbitalFollow
-  TargetOffset: {x: 0, y: 0, z: 0}
+  TargetOffset: {x: 0, y: 2, z: 0}
   TrackerSettings:
     BindingMode: 4
     PositionDamping: {x: 1, y: 1, z: 1}
@@ -350,7 +351,7 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   OrbitStyle: 0
-  Radius: 10
+  Radius: 3.5
   Orbits:
     Top:
       Radius: 2
@@ -374,9 +375,9 @@ MonoBehaviour:
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 17.5
+    Value: 20
     Center: 17.5
-    Range: {x: 10, y: 60}
+    Range: {x: -10, y: 50}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -393,6 +394,20 @@ MonoBehaviour:
       Wait: 1
       Time: 2
     Restrictions: 0
+--- !u!114 &2466013117166347729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8710881118688974478}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d75924d76b05344aa410607bc57db98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineConfiner3D
+  BoundingVolume: {fileID: 0}
+  SlowingDistance: 0
 --- !u!1001 &4734328449122354771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -444,6 +459,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
       propertyPath: m_Name
       value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2059a5b259221964bbab0a60e9695440, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
