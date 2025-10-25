@@ -1,6 +1,7 @@
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
@@ -80,7 +81,15 @@ public class Player : MonoBehaviour
         moveDirNorm = (camF * inputDir.z + camR * inputDir.x).normalized;
 
         // --- Move (walk/sprint) ---
+        // Base multiplier depending on sprint input
         float speedMult = gameInput.Sprint() ? 1.5f : 0.6f;
+
+        // If we’re in the ChaseScene, boost sprint multiplier
+        if (SceneManager.GetActiveScene().name == "ChaseScene" && gameInput.Sprint())
+        {
+            speedMult = 8f;
+        }
+
         controller.Move(moveDirNorm * (moveSpeed * speedMult) * Time.deltaTime);
 
         // --- Jump ---

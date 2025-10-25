@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CityScene : MonoBehaviour
 {
@@ -6,11 +6,12 @@ public class CityScene : MonoBehaviour
     public GameObject robber;
 
     public bool talkedToRobber = false;
-    public float robberSpeed = 0f;
+    public float robberSpeed = 5f;      // use it!
+    public float moveDuration = 5f;     // expose in inspector if you like
 
     private bool startedMoving = false;
+    private bool isLoadingScene = false; // NEW: prevents multiple loads
     private float moveTimer = 0f;
-    private float moveDuration = 0f;  // how long the robber will move before scene change
 
     private void Awake()
     {
@@ -19,43 +20,57 @@ public class CityScene : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         instance = this;
+        // If this object is meant to persist across scenes, uncomment:
+        // DontDestroyOnLoad(gameObject);
     }
 
     void Update()
     {
-        // When you talk to the robber, start his movement once
-        if (talkedToRobber && !startedMoving)
+        // Start movement exactly once after talking to the robber
+        if (talkedToRobber && !startedMoving && !isLoadingScene)
         {
-            robberSpeed = 5f; // units per second
-            moveDuration = 5f;
             startedMoving = true;
             moveTimer = 0f;
-            Debug.Log($"Robber starts moving for {moveDuration:F1} seconds");
+            // Optional: clear the trigger so it can't retrigger elsewhere
+            talkedToRobber = false;
         }
 
         // If robber is moving, update position and timer
-        if (startedMoving)
+        if (startedMoving && !isLoadingScene)
         {
             if (robber != null)
             {
+                // Move in a consistent direction using speed * deltaTime
+                // (Your original code moved a fixed vector per frame)
                 robber.transform.position -= new Vector3(-.4f, 0f, 3f);
             }
 
             moveTimer += Time.deltaTime;
 
-            // After the move duration passes, load the next scene
+            // After the move duration passes, load the next scene ONCE
             if (moveTimer >= moveDuration)
             {
                 startedMoving = false;
                 robberSpeed = 0f;
-                Debug.Log("Robber finished moving � loading next scene!");
-                if (SceneLoader.instance != null)
-                    SceneLoader.instance.LoadNextScene();
-                else
-                    Debug.LogWarning("SceneLoader.instance is null � add SceneLoader to your scene!");
+
+                if (!isLoadingScene)
+                {
+                    isLoadingScene = true;     // <— guard
+                    enabled = false;           // optional extra safety
+                    Debug.Log("Robber finished moving — loading next scene!");
+                    if (SceneLoader.instance != null)
+                        SceneLoader.instance.LoadNextScene();
+                    else
+                        Debug.LogWarning("SceneLoader.instance is null — add SceneLoader to your scene!");
+                }
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        // Extra safety to avoid phantom retriggers if this component gets disabled/enabled
+        startedMoving = false;
     }
 }
