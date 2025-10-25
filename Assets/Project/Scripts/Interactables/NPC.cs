@@ -1,26 +1,29 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class NPC : MonoBehaviour
 {
-     [SerializeField] public string npcName = "";
-     [SerializeField] public string Dialogue = "";
+    [Header("Identity")]
+    [SerializeField] public string npcName = "NPC";
 
+    [Header("Dialogue Lines")]
+    [TextArea(2, 5)] public string[] lines;   // <-- put each line here in the Inspector
 
     public void Interact()
     {
+        // your scene flags (optional)
         if (npcName == "John")
         {
-                BarScene.instance.talkedToBartender = true;
-                Debug.Log("talked to john");
+            if (BarScene.instance) BarScene.instance.talkedToBartender = true;
         }
         if (npcName == "Robber")
         {
-            CityScene.instance.talkedToRobber = true;
-            Debug.Log("talked to robber");
+            if (CityScene.instance) CityScene.instance.talkedToRobber = true;
         }
 
+        // show dialogue
+        if (DialogueUI.Instance)
+        {
+            DialogueUI.Instance.Show(lines);
+        }
     }
-
 }
