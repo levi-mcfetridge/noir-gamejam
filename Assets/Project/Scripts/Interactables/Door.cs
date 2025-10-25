@@ -4,6 +4,7 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [SerializeField] private string doorName = "ExitDoor";
+    public AudioSource DoorExit;  // Add this at the top of your class
 
     public void Interact()
     {
@@ -11,6 +12,8 @@ public class Door : MonoBehaviour
         {
             if (!BarScene.instance.isDoorUnlocked && doorName == "BarExitDoor")
             {
+                if (DoorExit != null)
+                    DoorExit.Play();
                 BarScene.instance.isDoorUnlocked = true;
             }
         }

@@ -1,11 +1,14 @@
 using UnityEngine;
 
+
 public class NPC : MonoBehaviour
 {
     [Header("Identity")]
     [SerializeField] public string npcName = "NPC";
     [SerializeField] private Animator anim;                // John’s Animator (auto-found if left empty)
-    [SerializeField] private string talkedBool = "talkedBool"; 
+    [SerializeField] private string talkedBool = "talkedBool";
+    public AudioSource talkSound;  // Add this at the top of your class
+
 
 
     [Header("Dialogue Lines")]
@@ -22,6 +25,9 @@ public class NPC : MonoBehaviour
         if (npcName == "John")
         {
             if (BarScene.instance) BarScene.instance.talkedToBartender = true;
+            if (talkSound != null)
+                talkSound.Play();
+
 
             // ---> animate differently after talking
             if (anim)
@@ -38,6 +44,8 @@ public class NPC : MonoBehaviour
         {
             if (PrisonScene.instance) PrisonScene.instance.talkedToHog = true;
             Debug.Log("Talked to HogFather");
+            if (talkSound != null)
+                talkSound.Play();
         }
 
         // show dialogue
